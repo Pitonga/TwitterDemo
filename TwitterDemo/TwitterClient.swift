@@ -90,4 +90,44 @@ class TwitterClient: BDBOAuth1SessionManager {
         NSNotificationCenter.defaultCenter().postNotificationName(User.userDidLogoutNotification, object: nil)
     }
     
+    func retweet(id:String){
+         POST("1.1/statuses/retweet/\(id).json", parameters: nil, progress: nil, success: { (task: NSURLSessionDataTask, response: AnyObject?) -> Void in
+            print("Succesfully retweeted")
+            }, failure: { (task: NSURLSessionDataTask?, error: NSError) -> Void in
+                print("Failed to retweet")
+         })
+    
+    }
+    
+    func unretweet(id:String){
+        POST("1.1/statuses/unretweet/\(id).json", parameters: nil, progress: nil, success: { (task: NSURLSessionDataTask, response: AnyObject?) -> Void in
+            print("Succesfully unretweeted")
+            }, failure: { (task: NSURLSessionDataTask?, error: NSError) -> Void in
+                print("Failed to unretweet")
+        })
+        
+    }
+    
+    
+    func favorited(id:String){
+        POST("1.1/favorites/create.json?id=\(id)", parameters: nil, progress: nil, success: { (task: NSURLSessionDataTask, response: AnyObject?) -> Void in
+            print("Succesfully favorited")
+            }, failure: { (task: NSURLSessionDataTask?, error: NSError) -> Void in
+                print("Failed to favorite")
+        })
+        
+    }
+
+    func unfavorited(id:String){
+        POST("1.1/favorites/destroy.json?id=\(id)", parameters: nil, progress: nil, success: { (task: NSURLSessionDataTask, response: AnyObject?) -> Void in
+            print("Succesfully unfavorited")
+            }, failure: { (task: NSURLSessionDataTask?, error: NSError) -> Void in
+                print("Failed to unfavorite")
+        })
+        
+    }
+
+    
+    
+    
 }

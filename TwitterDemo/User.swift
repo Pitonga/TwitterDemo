@@ -9,7 +9,7 @@
 import UIKit
 
 class User: NSObject {
-    var name: NSString?
+    var name: String?
     var screenname: NSString?
     var profileUrl: NSURL?
     var tagline: NSString?

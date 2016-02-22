@@ -9,29 +9,12 @@
 import UIKit
 
 class TweetTableViewCell: UITableViewCell {
-    var tweet: Tweet!
-    var user: User! {
-        didSet{
-            usernameLabel.text = user.name as? String
-            profileView.setImageWithURL(user.profileUrl!)
-            accountIDLabel.text = user.screenname as? String
-            timeLabel.text = tweet.timestampString
-            tweetLabel.text = tweet.text as? String
-           
-            
-            
-            
-            
-            
-            
-            
-        }
-    }
     
-   
+    @IBOutlet weak var favoriteCountLabel: UILabel!
+    @IBOutlet weak var retweetCountLabel: UILabel!
+    @IBOutlet weak var favoriteButton: UIButton!
+    @IBOutlet weak var retweetButton: UIButton!
     @IBOutlet weak var profileView: UIImageView!
-
-   
     @IBOutlet weak var favoriteView: UIImageView!
     @IBOutlet weak var retweetView: UIImageView!
     @IBOutlet weak var replyView: UIImageView!
@@ -39,19 +22,70 @@ class TweetTableViewCell: UITableViewCell {
     @IBOutlet weak var tweetLabel: UILabel!
     @IBOutlet weak var accountIDLabel: UILabel!
     @IBOutlet weak var usernameLabel: UILabel!
+    
+    var tweet: Tweet!{
+        didSet{
+            usernameLabel.text = tweet.user?.name
+            profileView.setImageWithURL((tweet.user?.profileUrl)!)
+            accountIDLabel.text = "@\((tweet.user?.screenname)!)"
+            timeLabel.text = tweet.timestampString
+            tweetLabel.text = tweet.text as? String
+            retweetCountLabel.text = String(tweet.retweetCount)
+            favoriteCountLabel.text = String(tweet.favoritesCount)
+        }
+    }
+    
+    var favorited = false
+    var retweeted = false
+   
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         profileView.layer.cornerRadius = 10
-        favoriteView.image = UIImage(named: "favorite")
+        profileView.clipsToBounds = true
+        retweetButton.setBackgroundImage(UIImage(named: "retweet"), forState: .Normal)
+        favoriteButton.setBackgroundImage(UIImage(named: "favorite"), forState: .Normal)
         replyView.image = UIImage(named: "reply")
-        retweetView.image = UIImage(named: "retweet")
-        
+        tweetLabel.sizeToFit()
         }
 
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+    }
+    
+    @IBAction func retweet(sender: AnyObject) {
+        if !retweeted {
+            TwitterClient.sharedInstance.retweet(tweet.tweetID!)
+            retweetButton.setBackgroundImage(UIImage(named: "retweeted"), forState: .Normal)
+            retweetCountLabel.text = String(tweet.retweetCount + 1)
+            retweeted = true
+        }
+        else{
+            TwitterClient.sharedInstance.unretweet(tweet.tweetID!)
+            retweetButton.setBackgroundImage(UIImage(named: "retweet"), forState: .Normal)
+            retweetCountLabel.text = String(tweet.retweetCount)
+            retweeted = false
+            
+        }
+    }
+    
+    @IBAction func favorite(sender: AnyObject) {
+        if !favorited {
+            TwitterClient.sharedInstance.favorited(tweet.tweetID!)
+            favoriteButton.setBackgroundImage(UIImage(named: "favorited"), forState: .Normal)
+            favoriteCountLabel.text = String(tweet.favoritesCount + 1)
+            favorited = true
+        }
+        else{
+            TwitterClient.sharedInstance.unfavorited(tweet.tweetID!)
+            favoriteButton.setBackgroundImage(UIImage(named: "favorite"), forState: .Normal)
+            favoriteCountLabel.text = String(tweet.favoritesCount)
+            favorited = false
+        }
+
+    
     }
 
 }
