@@ -126,8 +126,62 @@ class TwitterClient: BDBOAuth1SessionManager {
         })
         
     }
-
     
+    func RetrieveUser (UserID: Int )( success: (User) -> (), failure: (NSError) -> ()){
+        
+        GET("https://api.twitter.com/1.1/users/show.json?id=\(UserID)", parameters:nil , progress: nil, success: { (task :NSURLSessionDataTask,
+            response: AnyObject?) -> Void in
+            let userDictionary = response as! NSDictionary
+            let user = User(dictionary: userDictionary)
+            
+            success (user)
+            
+            }, failure: { (task: NSURLSessionDataTask?, error: NSError) -> Void in
+                failure(error)
+        })
+        
+        
+    }
+    
+    func UserTimeLine(UserID: Int )( success: ([Tweet]) -> (), failure: (NSError) -> ()){
+        
+        GET("https://api.twitter.com/1.1/statuses/user_timeline.json?id=\(UserID)", parameters:nil , progress: nil, success: { (task :NSURLSessionDataTask,
+            response: AnyObject?) -> Void in
+            
+            
+            let responseDictionary = response as! [NSDictionary]
+            let tweets = Tweet.tweetsWithArray(responseDictionary)
+            
+            success (tweets)
+            
+            }, failure: { (task: NSURLSessionDataTask?, error: NSError) -> Void in
+                failure(error)
+        })
+    }
+    
+
+    func SendTweet(status:String){
+        let status = (status.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding))!
+        POST("1.1/statuses/update.json?status=\(status)", parameters: nil,
+            success: { (operation: NSURLSessionDataTask, response: AnyObject?) -> Void in
+                print("Succesfull Tweet")
+            }, failure: { (operation: NSURLSessionDataTask?, error: NSError) -> Void in
+                print("Tweet error:\(error)")
+        })
+        
+    }
+    
+    func reply(tweetId: String, tweetText: String) {
+        let replyText = (tweetText.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding))!
+        
+        POST("1.1/statuses/update.json?status=\(replyText)&in_reply_to_status_id=\(tweetId)", parameters: nil,
+            success: { (operation: NSURLSessionDataTask, response: AnyObject?) -> Void in
+                print("Success: replied sent")
+            }, failure: { (operation: NSURLSessionDataTask?, error: NSError) -> Void in
+                print("Reply error:\(error)")
+        })
+        
+    }
     
     
 }
