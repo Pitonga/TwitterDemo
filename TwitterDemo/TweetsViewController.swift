@@ -11,6 +11,7 @@ import UIKit
 class TweetsViewController:UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     
+    @IBOutlet weak var composeButton: UIButton!
     @IBOutlet weak var tableView: UITableView!
     var tweets: [Tweet]!
 
@@ -21,7 +22,8 @@ class TweetsViewController:UIViewController, UITableViewDataSource, UITableViewD
         let refreshControl = UIRefreshControl()
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 120
-
+        composeButton.setBackgroundImage(UIImage (named: "compose"), forState: .Normal)
+        
         TwitterClient.sharedInstance.homeTimeline({ (tweets: [Tweet]) -> () in
             self.tweets = tweets
             
@@ -121,10 +123,13 @@ class TweetsViewController:UIViewController, UITableViewDataSource, UITableViewD
         // Pass the selected object to the new view controller.
     }
     
+    
+    
     @IBAction func onProfilePicTouch(sender: AnyObject) {
         
-        
         let profileViewController = self.storyboard?.instantiateViewControllerWithIdentifier("ProfileVC") as! ProfileViewController
+        
+        
         
         if let button = sender as? UIButton {
             if let superview = button.superview {
@@ -138,8 +143,9 @@ class TweetsViewController:UIViewController, UITableViewDataSource, UITableViewD
                 }
             }
         }
+
+        
     }
-    
     
     @IBAction func onTweetButton(sender: AnyObject) {
         
@@ -150,7 +156,7 @@ class TweetsViewController:UIViewController, UITableViewDataSource, UITableViewD
     
     @IBAction func onReplyButton(sender: AnyObject) {
         
-        performSegueWithIdentifier("ReplyFromHome",sender:nil)
+        performSegueWithIdentifier("CreateTweetSegue",sender:nil)
         
     }
     

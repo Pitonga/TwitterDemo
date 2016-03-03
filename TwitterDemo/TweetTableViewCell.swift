@@ -15,14 +15,12 @@ class TweetTableViewCell: UITableViewCell {
     @IBOutlet weak var favoriteButton: UIButton!
     @IBOutlet weak var retweetButton: UIButton!
     @IBOutlet weak var profileView: UIImageView!
-    @IBOutlet weak var favoriteView: UIImageView!
-    @IBOutlet weak var retweetView: UIImageView!
-    @IBOutlet weak var replyView: UIImageView!
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var tweetLabel: UILabel!
     @IBOutlet weak var accountIDLabel: UILabel!
     @IBOutlet weak var usernameLabel: UILabel!
-    
+    @IBOutlet weak var replyButton: UIButton!
+
     var tweet: Tweet!{
         didSet{
             usernameLabel.text = tweet.user?.name
@@ -45,7 +43,7 @@ class TweetTableViewCell: UITableViewCell {
         profileView.clipsToBounds = true
         retweetButton.setBackgroundImage(UIImage(named: "retweet"), forState: .Normal)
         favoriteButton.setBackgroundImage(UIImage(named: "favorite"), forState: .Normal)
-        replyView.image = UIImage(named: "reply")
+        replyButton.setBackgroundImage(UIImage(named: "reply"), forState: .Normal)
         tweetLabel.sizeToFit()
         }
 

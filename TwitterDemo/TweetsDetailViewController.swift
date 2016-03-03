@@ -35,7 +35,7 @@ class TweetsDetailViewController: UIViewController {
         profileImage.layer.cornerRadius = 10
         profileImage.clipsToBounds = true
         userNameLabel.text = tweet!.user?.name as String!
-        profileImage.setImageWithURL((tweet!.user?.profileUrl)!)
+        profileImage.setImageWithURL((tweet!.user!.profileUrl)!)
         accountIDLabel.text = "@\((tweet!.user?.screenname)!)"
         timeStampLabel.text = tweet!.timestampString! as String
         tweetTextLabel.text = tweet!.text as? String

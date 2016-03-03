@@ -28,7 +28,7 @@ class ReplyViewController: UIViewController,UITextViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("\(tweet!.text)")
+        print("\(tweet?.text)")
         print("\(tweet?.tweetID)")
         TweetText.delegate = self
         UserName.text = User.currentUser?.name as String!
@@ -66,7 +66,7 @@ class ReplyViewController: UIViewController,UITextViewDelegate {
     }
     
     @IBAction func onSendReply(sender: AnyObject) {
-        
+
         let CompleteTweetText = "@\(tweet!.user!.screenname) \(TweetText.text)"
         TwitterClient.sharedInstance.reply((tweet!.tweetID)!,tweetText: CompleteTweetText)
     }

@@ -35,10 +35,10 @@ UITableViewDataSource {
         super.viewDidLoad()
         
         
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 120
+      tableView.dataSource = self
+      tableView.delegate = self
+        //tableView.rowHeight = UITableViewAutomaticDimension
+       // tableView.estimatedRowHeight = 120
         
         TwitterClient.sharedInstance.UserTimeLine(user!.UserId!)(success: { (tweets : [Tweet]) -> ()
             in
@@ -46,7 +46,7 @@ UITableViewDataSource {
             self.tweets = tweets
             print("Success getting timeline")
             
-            self.tableView.reloadData()
+           self.tableView.reloadData()
             
             
             }, failure:{ (error: NSError) -> () in

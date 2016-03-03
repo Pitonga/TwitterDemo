@@ -11,7 +11,7 @@ import UIKit
 class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource  {
     
     
-    @IBOutlet weak var scrollView: UIScrollView!
+
     @IBOutlet weak var bannerImage: UIImageView!
     @IBOutlet weak var profileView: UIImageView!
     @IBOutlet weak var userNameLabel: UILabel!
@@ -33,7 +33,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         tableView.estimatedRowHeight = 120
         let refreshControl = UIRefreshControl()
         
-        scrollView.contentSize = CGSize(width: scrollView.frame.size.width, height: scrollView.frame.origin.y + tableView.frame.size.height)
+       // scrollView.contentSize = CGSize(width: scrollView.frame.size.width, height: scrollView.frame.origin.y + tableView.frame.size.height)
         
         
         
